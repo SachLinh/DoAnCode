@@ -30,6 +30,7 @@ const replaceCata = async (req, res, next) =>{
 }
 const deleteCata = async (req, res, next) =>{
     const {cataID} = req.value.params
+    console.log('id', cataID);
     // getcata
     const cata = await Cata.findById(cataID)
     // delete cata

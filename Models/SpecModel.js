@@ -16,7 +16,7 @@ const SpecSchema = new Schema({
         type:String
     },
     KichThuocManHinh:{
-        type:String
+        type:Number
     },
     CameraTruoc:{
         type:String
@@ -40,10 +40,10 @@ const SpecSchema = new Schema({
         type:String
     },
     TrongLuong:{
-        type:String
+        type:Number
     },
     TienIchKhac:{
-        type:number
+        type:String
     },
     product:
         {

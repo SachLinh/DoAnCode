@@ -14,8 +14,8 @@ router
 router
   .route("/:productID")
   .get(validateParam(schemas.idProduct, 'productID'),ProductController.getProduct)
-  .put(validateParam(schemas.idProduct, 'productID'), validateBody(schemas.newProductSchema), ProductController.replaceProduct)
-  .patch(validateParam(schemas.idProduct, 'productID'), validateBody(schemas.newProductOptionSchema), ProductController.updateProduct)
+  .put(validateParam(schemas.idProduct, 'productID'), validateBody(schemas.newProductOptionSchema), ProductController.updateProduct)
+  // .patch(validateParam(schemas.idProduct, 'productID'), validateBody(schemas.newProductOptionSchema), ProductController.updateProduct)
   .delete(validateParam(schemas.idProduct, 'productID'),ProductController.deleteProduct);
 router.route("/:productID/Specifications").get()
 .post(validateParam(schemas.idProduct, 'productID'), validateBody(schemas.newSpecSchema), ProductController.newSpecByProduct);

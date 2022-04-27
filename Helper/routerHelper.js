@@ -52,7 +52,8 @@ const schemas = {
     userOptionSchema:Joi.object().keys({
         name: Joi.string().min(2),
         phone: Joi.string().min(10),
-        email: Joi.string().email()
+        email: Joi.string().email(),
+        password: Joi.string().min(6)
     }),
     newCataSchema:Joi.object().keys({
         name: Joi.string().min(2).required()
@@ -79,18 +80,18 @@ const schemas = {
     newSpecSchema:Joi.object().keys({
         RAM:Joi.number().required(),
         ROM:Joi.number().required(),
-        Pin:Joi.string().min(2).required(),
-        CongNgheManHinh:Joi.string().min(2).required(),
-        KichThuocManHinh:Joi.string().min(2).required(),
-        CameraTruoc:Joi.string().min(2).required(),
-        CameraSau:Joi.string().min(2).required(),
-        SIM:Joi.string().min(2).required(),
-        ChipXuLy:Joi.string().min(2).required(),
-        HeDieuHanh:Joi.string().min(2).required(),
-        Wifi:Joi.string().min(2).required(),
-        Bulutooth:Joi.string().min(2).required(),
-        TrongLuong:Joi.number().min(2).required(),
-        TienIchKhac:Joi.string().min(2).required()
+        Pin:Joi.string().min(1).required(),
+        CongNgheManHinh:Joi.string().min(1).required(),
+        KichThuocManHinh:Joi.number().required(),
+        CameraTruoc:Joi.string().min(1).required(),
+        CameraSau:Joi.string().min(1).required(),
+        SIM:Joi.string().min(1).required(),
+        ChipXuLy:Joi.string().min(1).required(),
+        HeDieuHanh:Joi.string().min(1).required(),
+        Wifi:Joi.string().min(1).required(),
+        Bulutooth:Joi.string().min(1).required(),
+        TrongLuong:Joi.number().required(),
+        TienIchKhac:Joi.string().min(1).required()
     }),
     newSpecOptionSchema:Joi.object().keys({
         RAM:Joi.number(),
@@ -134,6 +135,20 @@ const schemas = {
     }),
     idProduct : Joi.object().keys({
         param : Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
+    }),
+    newInvoiceDetailSchema:Joi.object().keys({
+        ID_Product:Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+        Count:Joi.number().required(),
+    }),
+    newInvoiceSchema:Joi.object().keys({
+        ID_User:Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+        Address:Joi.string().required(),
+        Total:Joi.number().required()
+    }),
+    newInvoiceOptionSchema:Joi.object().keys({
+        Address:Joi.string(),
+        Total:Joi.number(),
+        Status:Joi.boolean()
     })
 }
 

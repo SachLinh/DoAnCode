@@ -62,8 +62,13 @@ const secret = async (req, res, next) => {
 }
 const signIn = async (req, res, next) => {
   const toKen = encodeToken(req.user._id)
+  const email = req.value.body.email;
+  if(toKen)
+  {
+    var user = await User.findOne({email})
+  }
   res.setHeader('Authorization', toKen)
-  return res.status(201).json({success:true})
+  return res.status(201).json({toKen, user})
 };
 const signUp = async (req, res, next) => {
   const {name, phone, email, password} = req.value.body

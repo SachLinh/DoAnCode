@@ -18,8 +18,8 @@ router.route('/secret').get(passport.authenticate('jwt',{session:false}),userCon
 router
   .route("/:userID")
   .get(validateParam(schemas.idSchema, 'userID'),userController.getUser)
-  .put(validateParam(schemas.idSchema, 'userID'),validateBody(schemas.userSchema),userController.replaceUser)
-  .patch(validateParam(schemas.idSchema, 'userID'),validateBody(schemas.userOptionSchema),userController.updateUser);
+  .put(validateParam(schemas.idSchema, 'userID'),validateBody(schemas.userOptionSchema),passport.authenticate('local', {session:false}),userController.replaceUser)
+  .patch(validateParam(schemas.idSchema, 'userID'),validateBody(schemas.userOptionSchema),passport.authenticate('local', {session:false}),userController.updateUser);
 
 
 module.exports = router;
