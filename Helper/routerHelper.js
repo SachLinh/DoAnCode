@@ -136,6 +136,9 @@ const schemas = {
     idProduct : Joi.object().keys({
         param : Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
     }),
+    invoiceID : Joi.object().keys({
+        param : Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
+    }),
     newInvoiceDetailSchema:Joi.object().keys({
         ID_Product:Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
         Count:Joi.number().required(),
@@ -147,7 +150,6 @@ const schemas = {
     }),
     newInvoiceOptionSchema:Joi.object().keys({
         Address:Joi.string(),
-        Total:Joi.number(),
         Status:Joi.boolean()
     })
 }

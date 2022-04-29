@@ -15,17 +15,11 @@ router
 
 router
   .route("/:invoiceID")
-  .get(invoiceController.getInvoice)
+  .get(validateParam(schemas.invoiceID, 'invoiceID'),invoiceController.getInvoice)
   .post(validateBody(schemas.newInvoiceSchema), invoiceController.newInvoice)
   .put(
     validateBody(schemas.newInvoiceOptionSchema),
     invoiceController.updateInvoice
-  );
-router
-  .route("/:invoiceID/invoiceDetail")
-  .post(
-    validateBody(schemas.newInvoiceDetailSchema),
-    invoiceController.newDetailByInvoice
   );
 
 module.exports = router;

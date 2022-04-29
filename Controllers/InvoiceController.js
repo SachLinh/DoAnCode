@@ -1,6 +1,5 @@
 
 const Invoice = require('../Models/InvoiceModel')
-const InvoiceDetail = require('../Models/InvoiceDetailModel')
 const Product = require('../Models/ProductModel')
 
 
@@ -14,24 +13,11 @@ const newInvoice = async (req, res, next) =>{
    return res.status(201).json({newInvoice})
 }
 const getInvoice = async (req, res, next) =>{
-    const invoice = await Invoice.find(req.params)
+
+    const {invoiceID} = req.value.params
+    const invoice = await Invoice.findById(invoiceID)
     return res.status(200).json({invoice})
 }
-const newDetailByInvoice = async (req, res, next) => {
-    const {invoiceID} = req.params
-    // Tao new detail
-    const newDetail = await InvoiceDetail(req.value.body)
-    // get invoice
-    const InvoiceOriginal = await Invoice.findById(invoiceID)
-    // dua detail vao trong Invoice
-    InvoiceOriginal.ID_InvoiceDetail.push(newDetail._id)
-    // Tinh lai toatl
-    const product = await Product.findById(newDetail.ID_Product)
-
-    InvoiceOriginal.Total = parseInt(InvoiceOriginal.Total) + parseInt(product.Price)*parseInt(newDetail.Count)
-    await InvoiceOriginal.save()
-    return res.status(201).json({invoiceDetail: newDetail})
-};
 const updateInvoice = async (req, res, next) => {
     const {invoiceID} = req.params
     // get invoice
@@ -41,5 +27,5 @@ const updateInvoice = async (req, res, next) => {
 };
 
  module.exports = {
-  getAllInvoice, getInvoice, newInvoice,newDetailByInvoice,updateInvoice
+  getAllInvoice, getInvoice, newInvoice,updateInvoice
 }

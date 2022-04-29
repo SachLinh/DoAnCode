@@ -21,7 +21,6 @@ const cataRoute = require("./Routes/CataRouter");
 const promotionRoute = require("./Routes/PromotionRouter");
 const specRoute = require("./Routes/SpecRouter");
 const productRoute = require("./Routes/ProductRoute");
-const invoiceDetailRoute = require("./Routes/InvoiceDetailRoute");
 const invoiceRoute = require("./Routes/InvoiceRoute");
 const { json } = require("express/lib/response");
 
@@ -49,7 +48,6 @@ app.use("/catas", cataRoute);
 app.use("/promotions", promotionRoute);
 app.use("/specifications", specRoute);
 app.use("/products", productRoute);
-app.use("/invoiceDetail", invoiceDetailRoute);
 app.use("/invoice", invoiceRoute);
 
 // routes

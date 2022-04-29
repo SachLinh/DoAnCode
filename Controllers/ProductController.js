@@ -40,7 +40,6 @@ const newSpecByProduct = async (req, res, next) => {
     const {productID} = req.value.params
     // Tao new Spec
     const newSpec = await Specification(req.value.body)
-    console.log('body', newSpec);
     // get product
     const productOriginal = await Product.findById(productID)
     // dua product vao trong spec
