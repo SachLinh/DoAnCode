@@ -1,50 +1,44 @@
 /** @format */
 
-const express = require('express');
-// const router = express.Router();
-const router = require('express-promise-router')();
-const userController = require('../Controllers/user');
+const express = require("express");
+const router = require("express-promise-router")();
+const userController = require("../Controllers/user");
 const {
-	validateBody,
-	validateParam,
-	schemas,
-} = require('../Helper/routerHelper');
-const passport = require('passport');
-const passportConfig = require('../MiddleWare/passport');
+  validateBody,
+  validateParam,
+  schemas,
+} = require("../Helper/routerHelper");
+const passport = require("passport");
+const passportConfig = require("../MiddleWare/passport");
 
 router
-	.route('/')
-	.get(userController.index)
-	.post(validateBody(schemas.userSchema), userController.newUser);
+  .route("/")
+  .get(userController.index)
+  .post(validateBody(schemas.userSchema), userController.newUser);
 
 router
-	.route('/signup')
-	.post(validateBody(schemas.authSignUpSchema), userController.signUp);
+  .route("/signup")
+  .post(validateBody(schemas.authSignUpSchema), userController.signUp);
 router
-	.route('/signin')
-	.post(
-		validateBody(schemas.authSignInSchema),
-		passport.authenticate('local', { session: false }),
-		userController.signIn,
-	);
+  .route("/signin")
+  .post(
+    validateBody(schemas.authSignInSchema),
+    passport.authenticate("local", { session: false }),
+    userController.signIn
+  );
 router
-	.route('/secret')
-	.get(
-		passport.authenticate('jwt', { session: false }),
-		userController.secret,
-	);
+  .route("/secret")
+  .get(passport.authenticate("jwt", { session: false }), userController.secret);
 
 router
-	.route('/:userID')
-	.get(validateParam(schemas.idSchema, 'userID'), userController.getUser)
-	.put(
-		validateParam(schemas.idSchema, 'userID'),
-		validateBody(schemas.userOptionSchema),
-		userController.replaceUser,
-	)
-	.delete(
-		validateParam(schemas.idSchema, 'userID'),
-		userController.deleteUser,
-	);
+  .route("/:userID")
+  .get(validateParam(schemas.idSchema, "userID"), userController.getUser)
+  .put(
+    validateParam(schemas.idSchema, "userID"),
+    validateBody(schemas.userOptionSchema),
+    userController.replaceUser
+  )
+  .delete(validateParam(schemas.idSchema, "userID"), userController.deleteUser);
 
+router.route("/:userID/ChangePassword").post(userController.changepassword)
 module.exports = router;

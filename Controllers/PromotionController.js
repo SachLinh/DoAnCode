@@ -32,7 +32,6 @@ const deletePromotion = async (req, res, next) =>{
     const {PromotionID} = req.value.params
     // getPromotion
     const promotion = await Promotion.findById(PromotionID)
-
     // delete Promotion
     await promotion.remove()
     return res.status(200).json({success:true})
