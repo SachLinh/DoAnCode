@@ -138,7 +138,7 @@ const schemas = {
 		Price: Joi.number().min(2).required(),
 		Color: Joi.string().min(2).required(),
 		Endow: Joi.string().min(2).required(),
-		Count: Joi.number().min(1).required(),
+		Count: Joi.number().required(),
 	}),
 	newProductOptionSchema: Joi.object().keys({
 		ID_Cata: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
