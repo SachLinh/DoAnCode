@@ -117,7 +117,7 @@ const forgetpassword = async (req, res) => {
       if (err) throw err;
       user.password = hash;
       console.log("pw say hash", user.password);
-      const result = await User.findByIdAndUpdate(userID.userID, {password: newPassword});
+      const result = await User.findByIdAndUpdate(userID.userID, {password: user.password});
       console.log(result);
       return res.status(200).json({ success: true });
     })
