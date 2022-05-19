@@ -41,4 +41,5 @@ router
   .delete(validateParam(schemas.idSchema, "userID"), userController.deleteUser);
 
 router.route("/:userID/ChangePassword").post(userController.changepassword)
+router.route("/:userID/ForgetPassword").put(userController.forgetpassword)
 module.exports = router;

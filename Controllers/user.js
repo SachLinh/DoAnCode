@@ -56,9 +56,9 @@ const replaceUser = async (req, res, next) => {
 };
 const changepassword = async (req, res) => {
   const { currentPassword, newPassword, confirmNewPassword } = req.body;
-  console.log('body', req.body );
+  console.log('body', req.body);
   const userID = req.params;
-  console.log('id', userID );
+  console.log('id', userID);
   let errors = [];
 
   //Check required fields
@@ -106,6 +106,23 @@ const changepassword = async (req, res) => {
     }
   }
 };
+const forgetpassword = async (req, res) => {
+  const newPassword = 'User123'
+  const userID = req.params;
+  console.log('userID', userID);
+  const user = await User.findById(userID.userID);
+  console.log("user", user);
+  bcrypt.genSalt(10, (err, salt) =>
+    bcrypt.hash(newPassword, salt, async (err, hash) => {
+      if (err) throw err;
+      user.password = hash;
+      console.log("pw say hash", user.password);
+      const result = await User.findByIdAndUpdate(userID.userID, {password: newPassword});
+      console.log(result);
+      return res.status(200).json({ success: true });
+    })
+  );
+};
 
 // sign In, sign Up
 const secret = async (req, res, next) => {
@@ -148,4 +165,5 @@ module.exports = {
   signUp,
   deleteUser,
   changepassword,
+  forgetpassword
 };
