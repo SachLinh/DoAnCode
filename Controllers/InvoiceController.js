@@ -1,21 +1,9 @@
 /** @format */
 
 const Invoice = require('../Models/InvoiceModel');
-const PdfPriter = require('pdfmake')
-var fonts = {
-	Roboto: {
-	  normal: 'fonts/Roboto-Regular.ttf',
-	  bold: 'fonts/Roboto-Medium.ttf',
-	  italics: 'fonts/Roboto-Italic.ttf',
-	  bolditalics: 'fonts/Roboto-MediumItalic.ttf'
-	}
-};
-var priter = new PdfPriter(fonts)
-var fs = require('fs')
-
-
-
-
+var pdfMake = require('./pdfmake/pdfmake');
+var pdfFonts = require('./pdfmake/vfs_fonts');
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const getAllInvoice = async (req, res, next) => {
 	const invoices = await Invoice.find({});
@@ -46,15 +34,26 @@ const deleteInvoice = async (req, res, next) => {
 	return res.status(201).json({ success: true });
 };
 // in hóa đơn
-const printeInvoice =  (req, res, next) => {
+const printeInvoice = async (req, res, next) => {
+	const { invoiceID } = req.params;
+	const invoice = await Invoice.findById(invoiceID);
 	var documentDefinition = {
 		content: [
 			`bagcjshakakajaj`
 		]
 	}
-	const pdfDoc = priter.createPdfKitDocument(documentDefinition)
-	pdfDoc.pipe(fs.createWriteStream('document.pdf'));
-	pdfDoc.end()
+	const pdfDoc = pdfMake.createPdf(documentDefinition)
+	pdfDoc.getBase64((data) =>{
+		res.writeHead(200, 
+			{
+				'Content-Type': 'application/pdf',
+				'Content-Disposition':'attachment;filename="filename.pdf"'
+			});
+		const download = Buffer.from(data.toString('utf-8'), 'base64')
+		console.log('linh linh');
+		res.end(download)
+	})
+	//console.log('invoice', invoice);
 }
 
 
