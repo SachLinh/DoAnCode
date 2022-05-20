@@ -30,5 +30,5 @@ router
 		validateParam(schemas.invoiceID, 'invoiceID'),
 		invoiceController.deleteInvoice,
 	);
-
+router.route('/:invoiceID/PDF').post(invoiceController.printeInvoice)
 module.exports = router;

@@ -1,15 +1,13 @@
 /** @format */
-
-// Cách tuog tac vs mongoo : 2 cach
-// 1 callBack
-// 2 Promniss
-// 3 Async await
 const User = require("../Models/User");
 const bcrypt = require("bcryptjs");
 
 const JWT = require("jsonwebtoken");
 const { JWT_Secret } = require("../Config/index");
 
+const nodemailer = require("nodemailer")
+
+// get token
 const encodeToken = (userID) => {
   return JWT.sign(
     {
@@ -21,6 +19,33 @@ const encodeToken = (userID) => {
     JWT_Secret
   );
 };
+// send email when signup
+const sendEmail = (to, subject, html) =>{
+  const transporter = nodemailer.createTransport({
+    host:'smtp.gmail.com',
+    port: 587,
+    secure:false,
+    auth: {
+      user: 'sachlinh12345@gmail.com',
+      pass: '25092000Sl@'
+    }
+  })
+  const options = {
+    from: 'sachlinh12345@gmail.com',
+    to: to,
+    subject:subject,
+    html: html
+  }
+  return transporter.sendMail(options, function(err, success){
+    if(err){
+      console.log(err);
+    }
+    else{
+      console.log("email send suceessfully");
+    }
+  })
+}
+
 // async await
 const index = async (req, res, next) => {
   const users = await User.find({});
@@ -109,16 +134,13 @@ const changepassword = async (req, res) => {
 const forgetpassword = async (req, res) => {
   const newPassword = 'User123'
   const userID = req.params;
-  console.log('userID', userID);
   const user = await User.findById(userID.userID);
-  console.log("user", user);
   bcrypt.genSalt(10, (err, salt) =>
     bcrypt.hash(newPassword, salt, async (err, hash) => {
       if (err) throw err;
       user.password = hash;
-      console.log("pw say hash", user.password);
       const result = await User.findByIdAndUpdate(userID.userID, {password: user.password});
-      console.log(result);
+      sendEmail(result.email, 'SALISTORE: Forget password', `Mật khẩu mới của bạn là: <p>Pass: ${newPassword}</p> <p>Vui lòng đổi mật khẩu sau khi đăng nhập lần tới để bảo đảm an toàn</p>`)
       return res.status(200).json({ success: true });
     })
   );
@@ -152,6 +174,7 @@ const signUp = async (req, res, next) => {
   // encode Token
   const toKen = encodeToken(newUser._id);
   res.setHeader("Authorization", toKen);
+  sendEmail(email, 'SALISTORE: Sign up account', `Bạn đã đăng kí thành công tài khoản đăng nhâp vào website của chúng tôi:  <p>Email: ${email}</p> <p>Pass: ${password}</p>`)
   return res.status(201).json({ success: true });
 };
 

@@ -1,6 +1,21 @@
 /** @format */
 
 const Invoice = require('../Models/InvoiceModel');
+const PdfPriter = require('pdfmake')
+var fonts = {
+	Roboto: {
+	  normal: 'fonts/Roboto-Regular.ttf',
+	  bold: 'fonts/Roboto-Medium.ttf',
+	  italics: 'fonts/Roboto-Italic.ttf',
+	  bolditalics: 'fonts/Roboto-MediumItalic.ttf'
+	}
+};
+var priter = new PdfPriter(fonts)
+var fs = require('fs')
+
+
+
+
 
 const getAllInvoice = async (req, res, next) => {
 	const invoices = await Invoice.find({});
@@ -30,6 +45,18 @@ const deleteInvoice = async (req, res, next) => {
 	await resulf.remove();
 	return res.status(201).json({ success: true });
 };
+// in hóa đơn
+const printeInvoice =  (req, res, next) => {
+	var documentDefinition = {
+		content: [
+			`bagcjshakakajaj`
+		]
+	}
+	const pdfDoc = priter.createPdfKitDocument(documentDefinition)
+	pdfDoc.pipe(fs.createWriteStream('document.pdf'));
+	pdfDoc.end()
+}
+
 
 module.exports = {
 	getAllInvoice,
@@ -37,4 +64,5 @@ module.exports = {
 	newInvoice,
 	updateInvoice,
 	deleteInvoice,
+	printeInvoice
 };
